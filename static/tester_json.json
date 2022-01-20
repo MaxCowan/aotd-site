@@ -1,0 +1,57 @@
+[
+    {
+       "date":"1/1/2016",
+       "name":"Merriweather Post Pavilion",
+       "artist":"Animal Collective",
+       "favoriteSong":"Daily Routine",
+       "thoughts":"I enjoyed every song on this album, great choice to start out this project",
+       "oneWordDescriptor":"shimmering",
+       "idealActivity":"walking around a park",
+       "takeaway":"",
+       "source":"Concert"
+    },
+    {
+       "date":"1/2/2016",
+       "name":"Sung Tongs",
+       "artist":"Animal Collective",
+       "favoriteSong":"Leaf House",
+       "thoughts":"really cool sound, got some great lyrics, makes me feel like a balloon",
+       "oneWordDescriptor":"soaring",
+       "idealActivity":"walking around the zoo",
+       "takeaway":"",
+       "source":"Tim Lowry"
+    },
+    {
+       "date":"1/3/2016",
+       "name":"The Dongo Durango",
+       "artist":"Sun Club",
+       "favoriteSong":"Tropicoller Lease",
+       "thoughts":"warm sounds, some great tracks on here",
+       "oneWordDescriptor":"bouncing",
+       "idealActivity":"drawing shapes in Paint",
+       "takeaway":"",
+       "source":"Related Artists"
+    },
+    {
+       "date":"1/4/2016",
+       "name":"b'lieve i'm goin down...",
+       "artist":"Kurt Vile",
+       "favoriteSong":"Pretty Pimpin",
+       "thoughts":"this is a cool album it mixes a lot of styles to make a neat sound",
+       "oneWordDescriptor":"relaxing",
+       "idealActivity":"riding a bike",
+       "takeaway":"",
+       "source":"Pitchfork"
+    },
+    {
+       "date":"1/5/2016",
+       "name":"Year of Hibernation",
+       "artist":"Youth Lagoon",
+       "favoriteSong":"July",
+       "thoughts":"the ideas and themes he's able to communicate in this album are honestly amazing, one of the best ever",
+       "oneWordDescriptor":"happy",
+       "idealActivity":"trying to fall asleep",
+       "takeaway":"",
+       "source":"Pitchfork"
+    }
+]
