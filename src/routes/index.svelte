@@ -1,7 +1,10 @@
 <script>
-import {albums, fetchSheetAlbums} from "../albumstore";
 import AlbumCard from "../components/albumCard.svelte";
+import * as albumsRawJson from '../../static/aotd_sheet_data_raw.json';
+// import * as albumsRawJson from '../../static/tester_json.json';
 
+
+const albumsJson = albumsRawJson.default;
 
 let searchTerm = "";
 let filteredAlbums = [];
@@ -9,15 +12,14 @@ let filteredAlbums = [];
 // React to bound searchTerm and mutate the set of albums to display
 $: {
     if(searchTerm){
-        filteredAlbums = $albums.filter( album => album.albumName.toLowerCase().includes(searchTerm.toLowerCase()));
+        filteredAlbums = albumsJson.filter( album => album.name.toLowerCase().includes(searchTerm.toLowerCase()));
     }
     else {
-        filteredAlbums = [...$albums];
+        filteredAlbums = albumsJson;
     }
 }
 
-fetchSheetAlbums();
-
+filteredAlbums = albumsRawJson;
 </script>
 
 <svelte:head>
