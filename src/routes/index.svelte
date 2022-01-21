@@ -25,9 +25,9 @@ filteredAlbums = albumsRawJson;
 <svelte:head>
 	<title>Albums</title>
 </svelte:head>
-<input class="w-full rounded-md text-lg p-4 border-2 border-gray-200" bind:value={searchTerm} placeholder="Search Albums">
+<input class="w-full rounded-md text-lg p-4 border-2 border-gray-500 bg-gray-100" bind:value={searchTerm} placeholder="Search Albums">
 <!-- Default display grid -->
-<div class="py-4 grid gap-4 md:grid-cols-4 grid-cols-1">
+<div class="py-6 grid gap-5 md:grid-cols-4 grid-cols-1">
     {#each filteredAlbums as album}
         <AlbumCard album={album}/>
     {/each}
