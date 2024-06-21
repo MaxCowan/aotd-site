@@ -2,7 +2,7 @@
   "name": "aotd-site",
   "version": "0.0.1",
   "scripts": {
-    "dev": "svelte-kit dev --host aws-dev",
+    "dev": "svelte-kit dev --host localhost",
     "build": "svelte-kit build",
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
