@@ -31,8 +31,9 @@ $: {
 
 <style>
 .container {
+    display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh;
     width: 100%;
     box-sizing: border-box;
     font-family: inherit;
@@ -52,11 +53,12 @@ $: {
 .album-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(254px, 1fr));
-    gap: 16px;
+    gap: 25px;
     overflow-y: auto;
     padding: 1rem;
     box-sizing: border-box;
     width: 100%;
+    height: calc(100vh - 2rem - 2px - 1rem - 2px - 1rem);
     flex-grow: 1;
     font-family: inherit;
 }
