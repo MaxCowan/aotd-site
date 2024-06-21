@@ -1,9 +1,29 @@
 <script>
+import { onMount } from 'svelte';
+
 export let album;
+let imageElement;
+
+function lazyLoad() {
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                imageElement.src = "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806";
+                observer.unobserve(imageElement);
+            }
+        });
+    });
+
+    observer.observe(imageElement);
+}
+
+onMount(() => {
+    lazyLoad();
+});
 </script>
 
 <div class="album-card">
-    <img src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806" alt={album.name} class="album-image"/>
+    <img bind:this={imageElement} data-src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806" alt={album.name} class="album-image" />
     <div class="overlay"></div>
     <div class="album-title">{album.name}</div>
 </div>
@@ -17,6 +37,7 @@ export let album;
     overflow: hidden;
     transition: transform 0.4s, box-shadow 0.4s;
     font-family: inherit;
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
 }
 
 .album-card:hover {
