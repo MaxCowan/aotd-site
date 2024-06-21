@@ -3,7 +3,7 @@ export let album;
 </script>
 
 <div class="album-card">
-    <img src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806" alt="" class="album-image"/>
+    <img src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806" alt={album.name} class="album-image"/>
     <div class="overlay"></div>
     <div class="album-title">{album.name}</div>
 </div>
@@ -11,9 +11,8 @@ export let album;
 <style>
 .album-card {
     position: relative;
-    height: 0;
-    padding-bottom: 100%;
-    width: 100%;
+    width: 254px;
+    height: 254px;
     border-radius: 0.5rem;
     overflow: hidden;
     transition: transform 0.4s, box-shadow 0.4s;
@@ -26,9 +25,6 @@ export let album;
 }
 
 .album-image {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -68,5 +64,10 @@ export let album;
     transform: translateY(1rem);
     transition: opacity 0.5s, transform 0.5s;
     font-family: inherit;
+}
+
+.album-card:hover .album-title {
+    opacity: 1;
+    transform: translateY(0);
 }
 </style>

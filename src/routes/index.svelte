@@ -52,7 +52,7 @@ $: {
 
 .album-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(254px, 1fr)); /* Adjust to accommodate larger cards */
     gap: 1rem;
     flex: 1;
     overflow-y: auto;
