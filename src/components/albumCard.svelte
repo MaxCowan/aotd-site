@@ -11,8 +11,8 @@ export let album;
 <style>
 .album-card {
     position: relative;
-    width: 254px;
-    height: 254px;
+    width: 100%;
+    padding-top: 100%; /* Maintain square aspect ratio */
     border-radius: 0.5rem;
     overflow: hidden;
     transition: transform 0.4s, box-shadow 0.4s;
@@ -25,6 +25,9 @@ export let album;
 }
 
 .album-image {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;

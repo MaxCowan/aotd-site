@@ -7,7 +7,6 @@ const albumsJson = albumsRawJson;
 let searchTerm = "";
 let filteredAlbums = albumsJson;
 
-// React to bound searchTerm and mutate the set of albums to display
 $: {
     if (searchTerm) {
         filteredAlbums = albumsJson.filter(album => album.name.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -52,8 +51,8 @@ $: {
 
 .album-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(254px, 1fr)); /* Adjust to accommodate larger cards */
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(254px, 1fr));
+    gap: 16px;
     flex: 1;
     overflow-y: auto;
     padding: 1rem;
