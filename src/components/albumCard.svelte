@@ -5,8 +5,8 @@ export let album;
 let imageElement;
 
 function getImageUrl() {
-    if (album.artwork_url) {
-        return album.artwork_url.replace('{width}', '600').replace('{height}', '600');
+    if (album.artworkUrl) {
+        return album.artworkUrl.replace('{width}', '600').replace('{height}', '600');
     } else {
         return "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806";
     }
