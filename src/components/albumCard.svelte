@@ -4,11 +4,19 @@ import { onMount } from 'svelte';
 export let album;
 let imageElement;
 
+function getImageUrl() {
+    if (album.artwork_url) {
+        return album.artwork_url.replace('{width}', '600').replace('{height}', '600');
+    } else {
+        return "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806";
+    }
+}
+
 function lazyLoad() {
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                imageElement.src = "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806";
+                imageElement.src = getImageUrl();
                 observer.unobserve(imageElement);
             }
         });
@@ -23,7 +31,7 @@ onMount(() => {
 </script>
 
 <div class="album-card">
-    <img bind:this={imageElement} data-src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806" alt={album.name} class="album-image" />
+    <img bind:this={imageElement} alt={album.name} class="album-image" />
     <div class="overlay"></div>
     <div class="album-title">{album.name}</div>
 </div>
