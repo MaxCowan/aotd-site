@@ -1,16 +1,33 @@
 <script>
+import "../global.css"; // Adjust the path if necessary
 import Nav from "../components/nav.svelte";
 </script>
 
-<div class="bg-gray-200">
-    <div class="p-8 max-w-6xl mx-auto">
-        <Nav/>
-        <slot/>
+<div class="layout-container">
+    <Nav/>
+    <div class="content">
+        <slot></slot>
     </div>
 </div>
 
 <style>
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.layout-container {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.content {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-family: inherit;
+}
 </style>

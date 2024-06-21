@@ -1,0 +1,16 @@
+/* global.css or a similar global stylesheet */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif; /* Set your preferred default font */
+}
+
+#svelte {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
