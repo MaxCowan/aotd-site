@@ -33,7 +33,10 @@ onMount(() => {
 <div class="album-card">
     <img bind:this={imageElement} alt={album.name} class="album-image" />
     <div class="overlay"></div>
-    <div class="album-title">{album.name}</div>
+    <div class="album-info">
+        <div class="album-title">{album.name}</div>
+        <div class="album-artist">{album.artist}</div>
+    </div>
 </div>
 
 <style>
@@ -45,7 +48,7 @@ onMount(() => {
     overflow: hidden;
     transition: transform 0.4s, box-shadow 0.4s;
     font-family: inherit;
-    box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+    box-sizing: border-box;
 }
 
 .album-card:hover {
@@ -83,23 +86,31 @@ onMount(() => {
     opacity: 1;
 }
 
-.album-title {
+.album-info {
     position: absolute;
     bottom: 1rem;
     left: 1rem;
     right: 1rem;
-    color: white;
-    font-size: 1.25rem;
-    font-weight: bold;
     text-align: center;
+    color: white;
     opacity: 0;
     transform: translateY(1rem);
     transition: opacity 0.5s, transform 0.5s;
     font-family: inherit;
 }
 
-.album-card:hover .album-title {
+.album-card:hover .album-info {
     opacity: 1;
     transform: translateY(0);
+}
+
+.album-title {
+    font-size: 1.35rem;
+    font-weight: bold;
+}
+
+.album-artist {
+    font-size: 1rem;
+    margin-top: 0.5rem;
 }
 </style>
