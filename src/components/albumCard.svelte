@@ -12,7 +12,7 @@ export let album;
 .album-card {
     position: relative;
     width: 100%;
-    padding-top: 100%; /* Maintain square aspect ratio */
+    padding-top: 100%;
     border-radius: 0.5rem;
     overflow: hidden;
     transition: transform 0.4s, box-shadow 0.4s;

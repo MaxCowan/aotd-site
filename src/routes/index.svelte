@@ -31,7 +31,6 @@ $: {
 
 <style>
 .container {
-    display: flex;
     flex-direction: column;
     height: 100%;
     width: 100%;
@@ -47,17 +46,18 @@ $: {
     border-radius: 0;
     box-sizing: border-box;
     margin-bottom: 1rem;
+    font-family: inherit;
 }
 
 .album-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(254px, 1fr));
     gap: 16px;
-    flex: 1;
     overflow-y: auto;
     padding: 1rem;
     box-sizing: border-box;
     width: 100%;
-    height: 100%;
+    flex-grow: 1;
+    font-family: inherit;
 }
 </style>
