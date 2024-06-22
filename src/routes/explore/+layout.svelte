@@ -3,6 +3,10 @@ import { goto } from '$app/navigation';
 import { onMount } from 'svelte';
 
 onMount(() => {
-    goto('/explore/title');
+    if (window.location.pathname === '/explore') {
+        goto('/explore/title');
+    }
 });
 </script>
+
+<slot />

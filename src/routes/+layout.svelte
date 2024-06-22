@@ -1,10 +1,18 @@
 <script>
 import "../global.css";
-import Nav from "../components/nav.svelte";
+import Nav from "../components/Nav.svelte";
+import { goto } from '$app/navigation';
+import { onMount } from 'svelte';
+
+onMount(() => {
+    if (window.location.pathname === '/') {
+        goto('/explore/title');
+    }
+});
 </script>
 
 <div class="layout-container">
-    <Nav/>
+    <Nav />
     <div class="content">
         <slot></slot>
     </div>
@@ -19,6 +27,7 @@ import Nav from "../components/nav.svelte";
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    background-color: #181A1B;
 }
 
 .content {

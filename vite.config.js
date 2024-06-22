@@ -6,10 +6,16 @@ export default {
     sveltekit(),
     viteCompression({
       algorithm: 'gzip',
-      ext: '.gz', // Use .gz extension
-      threshold: 10240, // Compress files larger than 10KB
-      deleteOriginFile: false, // Keep original files
-      filter: /\.(js|css|html|json|svg|xml|wasm)$/i // Apply compression to JSON and other file types
+      ext: '.gz',
+      threshold: 10240,
+      deleteOriginFile: false,
+      filter: /\.(js|css|html|json|svg|xml|wasm)$/i
     })
-  ]
+  ],
+  build: {
+    sourcemap: true
+  },
+  server: {
+    sourcemap: true
+  }
 };
