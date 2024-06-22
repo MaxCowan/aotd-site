@@ -6,7 +6,7 @@ let imageElement;
 
 function getImageUrl() {
     const url = album.artworkUrl
-        ? album.artworkUrl.replace('{width}', '600').replace('{height}', '600')
+        ? album.artworkUrl.replace('{width}', '400').replace('{height}', '400')
         : "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806";
     console.log(`Generated image URL for album "${album.name}":`, url);
     return url;
