@@ -5,33 +5,37 @@ export let album;
 let imageElement;
 
 function getImageUrl() {
-    if (album.artworkUrl) {
-        return album.artworkUrl.replace('{width}', '600').replace('{height}', '600');
-    } else {
-        return "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806";
-    }
-}
-
-function lazyLoad() {
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                imageElement.src = getImageUrl();
-                observer.unobserve(imageElement);
-            }
-        });
-    });
-
-    observer.observe(imageElement);
+    const url = album.artworkUrl
+        ? album.artworkUrl.replace('{width}', '600').replace('{height}', '600')
+        : "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806";
+    console.log(`Generated image URL for album "${album.name}":`, url);
+    return url;
 }
 
 onMount(() => {
-    lazyLoad();
+    setUpLazyLoad();
 });
+
+function setUpLazyLoad() {
+    if (imageElement) {
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    imageElement.src = imageElement.getAttribute('data-src');
+                    console.log('Image src set for:', album.name);
+                    observer.unobserve(imageElement);
+                }
+            });
+        });
+
+        observer.observe(imageElement);
+        console.log('Observer setup for:', album.name, 'with data-src:', imageElement.getAttribute('data-src'));
+    }
+}
 </script>
 
 <div class="album-card">
-    <img bind:this={imageElement} alt={album.name} class="album-image" />
+    <img bind:this={imageElement} alt={album.name} class="album-image" data-src={getImageUrl()} />
     <div class="overlay"></div>
     <div class="album-info">
         <div class="album-title">{album.name}</div>
