@@ -72,7 +72,7 @@ onMount(() => {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(254px, 1fr));
     gap: 25px;
-    padding: 1rem;
+    padding: 25px;
     box-sizing: border-box;
     width: 100%;
 }
