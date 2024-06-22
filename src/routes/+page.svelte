@@ -47,6 +47,7 @@ onMount(() => {
 </svelte:head>
 
 <div class="container" bind:this={containerElement}>
+    <h1 class="page-title">Albums</h1>
     <input class="search-bar" bind:value={searchTerm} placeholder="Search Albums" />
     <div class="album-grid">
         {#each filteredAlbums as album (album.name + album.artist)}
@@ -66,15 +67,23 @@ onMount(() => {
     font-family: inherit;
 }
 
+.page-title {
+    color: #fff;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
 .search-bar {
     width: 100%;
     padding: 1rem;
     font-size: 1.25rem;
-    border: 2px solid gray;
+    border: 2px solid #888;
     border-radius: 0;
     box-sizing: border-box;
     margin-bottom: 1rem;
     font-family: inherit;
+    background-color: #2c2c2c;
+    color: #fff;
 }
 
 .album-grid {

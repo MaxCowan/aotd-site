@@ -1,5 +1,5 @@
 <script>
-import "../global.css"; // Adjust the path if necessary
+import "../global.css";
 import Nav from "../components/nav.svelte";
 </script>
 
