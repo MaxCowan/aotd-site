@@ -1,5 +1,5 @@
 <script>
-import { onMount, afterUpdate } from 'svelte';
+import { onMount } from 'svelte';
 import AlbumCard from "../components/albumCard.svelte";
 
 let albumsJson = [];
