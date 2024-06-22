@@ -40,7 +40,7 @@ onMount(() => {
 <div class="container" bind:this={containerElement}>
     <input class="search-bar" bind:value={searchTerm} placeholder="Search Albums" />
     <div class="album-grid">
-        {#each filteredAlbums as album, index (album.name + index)}
+        {#each filteredAlbums as album (album.name + album.artist)}
             <AlbumCard {album} />
         {/each}
     </div>
