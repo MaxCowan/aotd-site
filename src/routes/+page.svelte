@@ -19,11 +19,20 @@ async function fetchData() {
     }
 }
 
+function filterAlbums() {
+    if (searchTerm) {
+        const lowerSearchTerm = searchTerm.toLowerCase();
+        const exactMatches = albumsJson.filter(album => album.name.toLowerCase() === lowerSearchTerm);
+        const partialMatches = albumsJson.filter(album => album.name.toLowerCase().includes(lowerSearchTerm) && album.name.toLowerCase() !== lowerSearchTerm);
+        filteredAlbums = [...exactMatches, ...partialMatches];
+    } else {
+        filteredAlbums = albumsJson;
+    }
+}
+
 $: if (albumsJson.length > 0) {
     console.log('Filtering albums');
-    filteredAlbums = searchTerm
-        ? albumsJson.filter(album => album.name.toLowerCase().includes(searchTerm.toLowerCase()))
-        : albumsJson;
+    filterAlbums();
     console.log('Updated filteredAlbums:', filteredAlbums.length, searchTerm);
 }
 
