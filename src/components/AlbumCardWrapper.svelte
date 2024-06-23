@@ -53,20 +53,20 @@ function toggleExpand(event) {
         cardElement.style.zIndex = '10';
         cardElement.style.transition = 'all 0.4s ease';
 
-        requestAnimationFrame(() => {
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
+        // Flip the card immediately
+        isFlipped = true;
 
-            const translateX = (viewportWidth / 2 - originalRect.left - originalRect.width / 2);
-            const translateY = (viewportHeight / 2 - originalRect.top - originalRect.height / 2);
+        setTimeout(() => {
+            requestAnimationFrame(() => {
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
 
-            cardElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(2.5)`;
+                const translateX = (viewportWidth / 2 - originalRect.left - originalRect.width / 2);
+                const translateY = (viewportHeight / 2 - originalRect.top - originalRect.height / 2);
 
-            // Flip the card after expanding
-            setTimeout(() => {
-                isFlipped = true;
-            }, 500);
-        });
+                cardElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(2.5)`;
+            });
+        }, 500); // Wait for the flip animation to complete
 
         currentExpanded.set(cardElement);
         document.body.style.overflow = 'hidden';
