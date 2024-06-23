@@ -44,7 +44,7 @@ onMount(() => {
     transition: transform 0.5s, filter 0.5s;
 }
 
-.album-card:hover .album-image {
+:global(.album-card:hover .album-image) {
     transform: scale(1.05);
     filter: blur(2px);
 }

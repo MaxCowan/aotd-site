@@ -21,8 +21,8 @@ export let album;
     font-family: inherit;
 }
 
-.album-card:hover .album-info,
-.album-card.expanded .album-info {
+:global(.album-card:hover .album-info),
+:global(.album-card.expanded .album-info) {
     opacity: 1;
     transform: translateY(0);
 }

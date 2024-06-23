@@ -34,7 +34,7 @@ export let album;
     transition: opacity 0.5s;
 }
 
-.album-card:hover .overlay {
+:global(.album-card:hover .overlay) {
     opacity: 1;
 }
 </style>
