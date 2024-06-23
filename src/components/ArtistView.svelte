@@ -1,6 +1,6 @@
 <script>
 import { onMount } from 'svelte';
-import AlbumCard from './AlbumCard.svelte';
+import AlbumCardWrapper from './AlbumCardWrapper.svelte';
 
 export let searchTerm = "";
 let albumsJson = [];
@@ -40,7 +40,7 @@ onMount(() => {
 
 <div class="album-grid">
     {#each filteredAlbums as album (album.name + album.artist)}
-        <AlbumCard {album} />
+        <AlbumCardWrapper {album} />
     {/each}
 </div>
 
