@@ -19,7 +19,7 @@ import Nav from "../components/Nav.svelte";
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    padding: 30px;
+    padding: 3px;
 }
 
 .content {

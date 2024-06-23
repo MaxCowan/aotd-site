@@ -31,7 +31,8 @@ function handleSearchByChange(event) {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 25px;
+    margin-left: 25px;
+    margin-right: 25px;
 }
 
 .explore-text {

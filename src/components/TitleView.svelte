@@ -51,5 +51,7 @@ onMount(() => {
     gap: 25px;
     box-sizing: border-box;
     width: 100%;
+    overflow: visible;
+    margin: 25px;
 }
 </style>
