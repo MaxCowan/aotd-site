@@ -1,14 +1,6 @@
 <script>
 import "../global.css";
 import Nav from "../components/Nav.svelte";
-import { goto } from '$app/navigation';
-import { onMount } from 'svelte';
-
-onMount(() => {
-    if (window.location.pathname === '/') {
-        goto('/explore/title');
-    }
-});
 </script>
 
 <div class="layout-container">
@@ -27,7 +19,7 @@ onMount(() => {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    background-color: #181A1B;
+    padding: 30px;
 }
 
 .content {

@@ -18,7 +18,7 @@ function handleSearchByChange(event) {
 </script>
 
 <div class="explore-input">
-    <span class="explore-text">Explore by</span>
+    <span class="explore-text">Explore by:</span>
     <select bind:value={searchBy} on:change={handleSearchByChange} class="dropdown">
         <option value="title">Title</option>
         <option value="artist">Artist</option>
@@ -30,8 +30,8 @@ function handleSearchByChange(event) {
 .explore-input {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    gap: 0.5rem;
+    margin-bottom: 25px;
 }
 
 .explore-text {
@@ -45,7 +45,7 @@ function handleSearchByChange(event) {
     background-color: #2c2c2c;
     color: #fff;
     border: 2px solid #888;
-    border-radius: 0;
+    border-radius: 0.5rem;
     font-family: inherit;
 }
 
@@ -56,7 +56,7 @@ function handleSearchByChange(event) {
     background-color: #2c2c2c;
     color: #fff;
     border: 2px solid #888;
-    border-radius: 0;
+    border-radius: 0.5rem;
     font-family: inherit;
 }
 </style>
