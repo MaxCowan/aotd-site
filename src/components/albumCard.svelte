@@ -9,6 +9,7 @@ let cardElement;
 let placeholderElement;
 let originalRect;
 let isExpanded = false;
+let isFlipped = false;
 
 function getImageUrl() {
     const url = album.artworkUrl
@@ -62,6 +63,7 @@ function toggleExpand(event) {
             cardElement.style.transition = '';
             currentExpanded.set(null);
             isExpanded = false;
+            isFlipped = false;
         }, 400);
 
         document.body.style.overflow = '';
@@ -87,6 +89,11 @@ function toggleExpand(event) {
             const translateY = (viewportHeight / 2 - originalRect.top - originalRect.height / 2);
 
             cardElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(2.5)`;
+
+            // Flip the card after expanding
+            setTimeout(() => {
+                isFlipped = true;
+            }, 500);
         });
 
         currentExpanded.set(cardElement);
@@ -112,12 +119,22 @@ function handleKeyPress(event) {
 
 <div bind:this={placeholderElement} class="album-card-placeholder"></div>
 <div bind:this={cardElement} class="album-card-wrapper" on:click={handleClose} role="button" tabindex="0" on:keypress={handleKeyPress}>
-    <div class="album-card {isExpanded ? 'expanded' : ''}" on:click={toggleExpand} role="button" tabindex="0" aria-expanded={get(currentExpanded) === cardElement} aria-label={`Toggle expand for ${album.name}`} on:keypress={handleKeyPress}>
-        <img bind:this={imageElement} alt={album.name} class="album-image" data-src={getImageUrl()} />
-        <div class="overlay"></div>
-        <div class="album-info">
-            <div class="album-title">{album.name}</div>
-            <div class="album-artist">{album.artist}</div>
+    <div class="album-card {isExpanded ? 'expanded' : ''} {isFlipped ? 'flipped' : ''}" on:click={toggleExpand} role="button" tabindex="0" aria-expanded={get(currentExpanded) === cardElement} aria-label={`Toggle expand for ${album.name}`} on:keypress={handleKeyPress}>
+        <div class="album-card-inner">
+            <div class="album-card-front">
+                <img bind:this={imageElement} alt={album.name} class="album-image" data-src={getImageUrl()} />
+                <div class="overlay"></div>
+                <div class="album-info">
+                    <div class="album-title">{album.name}</div>
+                    <div class="album-artist">{album.artist}</div>
+                </div>
+            </div>
+            <div class="album-card-back">
+                <div class="back-content">
+                    <h3>{album.name}</h3>
+                    <p>Sample text on the backside</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -143,6 +160,8 @@ function handleKeyPress(event) {
     font-family: inherit;
     box-sizing: border-box;
     cursor: pointer;
+    transform-style: preserve-3d;
+    perspective: 1000px;
 }
 
 .album-card:hover {
@@ -152,7 +171,41 @@ function handleKeyPress(event) {
 
 .album-card.expanded {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-    transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.album-card-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.album-card.flipped .album-card-inner {
+    transform: rotateY(180deg);
+}
+
+.album-card-front,
+.album-card-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.album-card-back {
+    transform: rotateY(180deg);
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .album-image {
@@ -212,5 +265,13 @@ function handleKeyPress(event) {
 .album-artist {
     font-size: 1rem;
     margin-top: 0.5rem;
+}
+
+.back-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 </style>
