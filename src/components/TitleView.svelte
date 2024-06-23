@@ -52,6 +52,6 @@ onMount(() => {
     box-sizing: border-box;
     width: 100%;
     overflow: visible;
-    margin: 25px;
+    padding: 25px;
 }
 </style>
