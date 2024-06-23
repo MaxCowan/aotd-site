@@ -3,12 +3,14 @@ import { onMount } from 'svelte';
 
 export let album;
 let imageElement;
+let isExpanded = false;
+let cardElement;
+let originalRect;
 
 function getImageUrl() {
     const url = album.artworkUrl
         ? album.artworkUrl.replace('{width}', '400').replace('{height}', '400')
         : "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806";
-    console.log(`Generated image URL for album "${album.name}":`, url);
     return url;
 }
 
@@ -22,42 +24,101 @@ function setUpLazyLoad() {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     imageElement.src = imageElement.getAttribute('data-src');
-                    console.log('Image src set for:', album.name);
                     observer.unobserve(imageElement);
                 }
             });
         });
 
         observer.observe(imageElement);
-        console.log('Observer setup for:', album.name, 'with data-src:', imageElement.getAttribute('data-src'));
+    }
+}
+
+function toggleExpand(event) {
+    if (!isExpanded) {
+        originalRect = cardElement.getBoundingClientRect();
+
+        cardElement.style.position = 'fixed';
+        cardElement.style.top = `${originalRect.top}px`;
+        cardElement.style.left = `${originalRect.left}px`;
+        cardElement.style.width = `${originalRect.width}px`;
+        cardElement.style.height = `${originalRect.height}px`;
+        cardElement.style.zIndex = '10';
+        cardElement.style.transform = 'none';
+
+        requestAnimationFrame(() => {
+            cardElement.style.top = '50%';
+            cardElement.style.left = '50%';
+            cardElement.style.width = '80vw';
+            cardElement.style.height = '80vh';
+            cardElement.style.maxWidth = '600px';
+            cardElement.style.maxHeight = '600px';
+            cardElement.style.transform = 'translate(-50%, -50%)';
+        });
+    } else {
+        cardElement.style.position = '';
+        cardElement.style.top = '';
+        cardElement.style.left = '';
+        cardElement.style.width = '';
+        cardElement.style.height = '';
+        cardElement.style.transform = '';
+        cardElement.style.zIndex = '';
+    }
+
+    isExpanded = !isExpanded;
+
+    if (isExpanded) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
+
+    event.stopPropagation();
+}
+
+function handleClose(event) {
+    if (isExpanded) {
+        toggleExpand(event);
     }
 }
 </script>
 
-<div class="album-card">
-    <img bind:this={imageElement} alt={album.name} class="album-image" data-src={getImageUrl()} />
-    <div class="overlay"></div>
-    <div class="album-info">
-        <div class="album-title">{album.name}</div>
-        <div class="album-artist">{album.artist}</div>
+<div bind:this={cardElement} class="album-card-wrapper" on:click={handleClose}>
+    <div class="album-card {isExpanded ? 'expanded' : ''}" on:click={toggleExpand}>
+        <img bind:this={imageElement} alt={album.name} class="album-image" data-src={getImageUrl()} />
+        <div class="overlay"></div>
+        <div class="album-info">
+            <div class="album-title">{album.name}</div>
+            <div class="album-artist">{album.artist}</div>
+        </div>
     </div>
 </div>
 
 <style>
+.album-card-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
 .album-card {
     position: relative;
     width: 100%;
     padding-top: 100%;
     border-radius: 0.5rem;
     overflow: hidden;
-    transition: transform 0.4s, box-shadow 0.4s;
+    transition: transform 0.4s, box-shadow 0.4s, width 0.4s, height 0.4s, top 0.4s, left 0.4s;
     font-family: inherit;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .album-card:hover {
     transform: scale(1.05);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.album-card.expanded {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s;
 }
 
 .album-image {
@@ -103,7 +164,8 @@ function setUpLazyLoad() {
     font-family: inherit;
 }
 
-.album-card:hover .album-info {
+.album-card:hover .album-info,
+.album-card.expanded .album-info {
     opacity: 1;
     transform: translateY(0);
 }
