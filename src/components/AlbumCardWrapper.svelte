@@ -94,7 +94,7 @@ function handleKeyPress(event) {
     <div class="album-card {isExpanded ? 'expanded' : ''} {isFlipped ? 'flipped' : ''}" on:click={toggleExpand} role="button" tabindex="0" aria-expanded={get(currentExpanded) === cardElement} aria-label={`Toggle expand for ${album.name}`} on:keypress={handleKeyPress}>
         <div class="album-card-inner">
             <AlbumCardFront {album} />
-            <AlbumCardBack {album} />
+            <AlbumCardBack {album} {isExpanded} />
         </div>
     </div>
 </div>
