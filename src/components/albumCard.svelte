@@ -86,10 +86,16 @@ function handleClose(event) {
         toggleExpand(event);
     }
 }
+
+function handleKeyPress(event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+        toggleExpand(event);
+    }
+}
 </script>
 
-<div bind:this={cardElement} class="album-card-wrapper" on:click={handleClose}>
-    <div class="album-card {isExpanded ? 'expanded' : ''}" on:click={toggleExpand}>
+<div bind:this={cardElement} class="album-card-wrapper" on:click={handleClose} role="button" tabindex="0" on:keypress={handleKeyPress}>
+    <div class="album-card {isExpanded ? 'expanded' : ''}" on:click={toggleExpand} role="button" tabindex="0" aria-expanded={isExpanded} aria-label={`Toggle expand for ${album.name}`} on:keypress={handleKeyPress}>
         <img bind:this={imageElement} alt={album.name} class="album-image" data-src={getImageUrl()} />
         <div class="overlay"></div>
         <div class="album-info">
