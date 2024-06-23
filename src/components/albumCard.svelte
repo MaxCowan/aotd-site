@@ -6,6 +6,7 @@ import { get } from 'svelte/store';
 export let album;
 let imageElement;
 let cardElement;
+let placeholderElement;
 let originalRect;
 let isExpanded = false;
 
@@ -50,6 +51,7 @@ function toggleExpand(event) {
         cardElement.style.transform = 'none';
 
         setTimeout(() => {
+            placeholderElement.style.display = 'none';
             cardElement.style.position = '';
             cardElement.style.top = '';
             cardElement.style.left = '';
@@ -65,6 +67,9 @@ function toggleExpand(event) {
         document.body.style.overflow = '';
     } else {
         originalRect = cardElement.getBoundingClientRect();
+        placeholderElement.style.display = 'block';
+        placeholderElement.style.width = `${originalRect.width}px`;
+        placeholderElement.style.height = `${originalRect.height}px`;
 
         cardElement.style.position = 'fixed';
         cardElement.style.top = `${originalRect.top}px`;
@@ -105,6 +110,7 @@ function handleKeyPress(event) {
 }
 </script>
 
+<div bind:this={placeholderElement} class="album-card-placeholder"></div>
 <div bind:this={cardElement} class="album-card-wrapper" on:click={handleClose} role="button" tabindex="0" on:keypress={handleKeyPress}>
     <div class="album-card {isExpanded ? 'expanded' : ''}" on:click={toggleExpand} role="button" tabindex="0" aria-expanded={get(currentExpanded) === cardElement} aria-label={`Toggle expand for ${album.name}`} on:keypress={handleKeyPress}>
         <img bind:this={imageElement} alt={album.name} class="album-image" data-src={getImageUrl()} />
@@ -120,6 +126,11 @@ function handleKeyPress(event) {
 .album-card-wrapper {
     position: relative;
     display: inline-block;
+}
+
+.album-card-placeholder {
+    display: none;
+    visibility: hidden;
 }
 
 .album-card {
