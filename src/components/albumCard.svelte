@@ -43,25 +43,31 @@ function toggleExpand(event) {
         cardElement.style.width = `${originalRect.width}px`;
         cardElement.style.height = `${originalRect.height}px`;
         cardElement.style.zIndex = '10';
-        cardElement.style.transform = 'none';
+        cardElement.style.transition = 'all 0.4s ease';
 
         requestAnimationFrame(() => {
-            cardElement.style.top = '50%';
-            cardElement.style.left = '50%';
-            cardElement.style.width = '80vw';
-            cardElement.style.height = '80vh';
-            cardElement.style.maxWidth = '600px';
-            cardElement.style.maxHeight = '600px';
-            cardElement.style.transform = 'translate(-50%, -50%)';
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            const translateX = (viewportWidth / 2 - originalRect.left - originalRect.width / 2);
+            const translateY = (viewportHeight / 2 - originalRect.top - originalRect.height / 2);
+
+            cardElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(2.5)`; // Adjust scale factor as needed
         });
     } else {
-        cardElement.style.position = '';
-        cardElement.style.top = '';
-        cardElement.style.left = '';
-        cardElement.style.width = '';
-        cardElement.style.height = '';
-        cardElement.style.transform = '';
-        cardElement.style.zIndex = '';
+        cardElement.style.transition = 'all 0.4s ease';
+        cardElement.style.transform = 'none';
+
+        setTimeout(() => {
+            cardElement.style.position = '';
+            cardElement.style.top = '';
+            cardElement.style.left = '';
+            cardElement.style.width = '';
+            cardElement.style.height = '';
+            cardElement.style.transform = '';
+            cardElement.style.zIndex = '';
+            cardElement.style.transition = '';
+        }, 400);
     }
 
     isExpanded = !isExpanded;
@@ -105,7 +111,7 @@ function handleClose(event) {
     padding-top: 100%;
     border-radius: 0.5rem;
     overflow: hidden;
-    transition: transform 0.4s, box-shadow 0.4s, width 0.4s, height 0.4s, top 0.4s, left 0.4s;
+    transition: transform 0.4s, box-shadow 0.4s;
     font-family: inherit;
     box-sizing: border-box;
     cursor: pointer;
@@ -118,7 +124,7 @@ function handleClose(event) {
 
 .album-card.expanded {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-    transition: all 0.4s;
+    transition: transform 0.4s, box-shadow 0.4s;
 }
 
 .album-image {
