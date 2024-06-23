@@ -50,5 +50,8 @@ onMount(() => {
     grid-template-columns: repeat(auto-fill, minmax(254px, 1fr));
     gap: 25px;
     box-sizing: border-box;
+    width: 100%;
+    overflow: visible;
+    padding: 25px;
 }
 </style>
