@@ -1,16 +1,19 @@
 <script>
 import { onMount } from 'svelte';
+import { currentExpanded } from '../stores';
+import { get } from 'svelte/store';
 
 export let album;
 let imageElement;
-let isExpanded = false;
 let cardElement;
 let originalRect;
+let isExpanded = false;
 
 function getImageUrl() {
     const url = album.artworkUrl
         ? album.artworkUrl.replace('{width}', '400').replace('{height}', '400')
         : "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806";
+    console.log(`Generated image URL for album "${album.name}":`, url);
     return url;
 }
 
@@ -24,17 +27,43 @@ function setUpLazyLoad() {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     imageElement.src = imageElement.getAttribute('data-src');
+                    console.log('Image src set for:', album.name);
                     observer.unobserve(imageElement);
                 }
             });
         });
 
         observer.observe(imageElement);
+        console.log('Observer setup for:', album.name, 'with data-src:', imageElement.getAttribute('data-src'));
     }
 }
 
 function toggleExpand(event) {
-    if (!isExpanded) {
+    const current = get(currentExpanded);
+
+    if (current && current !== cardElement) {
+        return; // Do nothing if another card is currently expanded
+    }
+
+    if (current === cardElement) {
+        cardElement.style.transition = 'all 0.4s ease';
+        cardElement.style.transform = 'none';
+
+        setTimeout(() => {
+            cardElement.style.position = '';
+            cardElement.style.top = '';
+            cardElement.style.left = '';
+            cardElement.style.width = '';
+            cardElement.style.height = '';
+            cardElement.style.transform = '';
+            cardElement.style.zIndex = '';
+            cardElement.style.transition = '';
+            currentExpanded.set(null);
+            isExpanded = false;
+        }, 400);
+
+        document.body.style.overflow = '';
+    } else {
         originalRect = cardElement.getBoundingClientRect();
 
         cardElement.style.position = 'fixed';
@@ -52,37 +81,19 @@ function toggleExpand(event) {
             const translateX = (viewportWidth / 2 - originalRect.left - originalRect.width / 2);
             const translateY = (viewportHeight / 2 - originalRect.top - originalRect.height / 2);
 
-            cardElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(2.5)`; // Adjust scale factor as needed
+            cardElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(2.5)`;
         });
-    } else {
-        cardElement.style.transition = 'all 0.4s ease';
-        cardElement.style.transform = 'none';
 
-        setTimeout(() => {
-            cardElement.style.position = '';
-            cardElement.style.top = '';
-            cardElement.style.left = '';
-            cardElement.style.width = '';
-            cardElement.style.height = '';
-            cardElement.style.transform = '';
-            cardElement.style.zIndex = '';
-            cardElement.style.transition = '';
-        }, 400);
-    }
-
-    isExpanded = !isExpanded;
-
-    if (isExpanded) {
+        currentExpanded.set(cardElement);
         document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = '';
+        isExpanded = true;
     }
 
     event.stopPropagation();
 }
 
 function handleClose(event) {
-    if (isExpanded) {
+    if (get(currentExpanded) === cardElement) {
         toggleExpand(event);
     }
 }
@@ -95,7 +106,7 @@ function handleKeyPress(event) {
 </script>
 
 <div bind:this={cardElement} class="album-card-wrapper" on:click={handleClose} role="button" tabindex="0" on:keypress={handleKeyPress}>
-    <div class="album-card {isExpanded ? 'expanded' : ''}" on:click={toggleExpand} role="button" tabindex="0" aria-expanded={isExpanded} aria-label={`Toggle expand for ${album.name}`} on:keypress={handleKeyPress}>
+    <div class="album-card {isExpanded ? 'expanded' : ''}" on:click={toggleExpand} role="button" tabindex="0" aria-expanded={get(currentExpanded) === cardElement} aria-label={`Toggle expand for ${album.name}`} on:keypress={handleKeyPress}>
         <img bind:this={imageElement} alt={album.name} class="album-image" data-src={getImageUrl()} />
         <div class="overlay"></div>
         <div class="album-info">
