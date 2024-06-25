@@ -1,10 +1,15 @@
 <script>
 import { onMount } from 'svelte';
+import InfiniteLoading from 'svelte-infinite-loading';
 import AlbumCardWrapper from './AlbumCardWrapper.svelte';
 
-export let searchTerm = "";
 let albumsJson = [];
 let filteredAlbums = [];
+let displayedAlbums = [];
+let currentPage = 0;
+let pageSize = 20;
+let infiniteId = Symbol();
+export let searchTerm = "";
 
 async function fetchData() {
     try {
@@ -25,12 +30,34 @@ function filterAlbums() {
     } else {
         filteredAlbums = albumsJson;
     }
+    resetDisplayedAlbums();
 }
 
-$: {
-    if (albumsJson.length > 0 || searchTerm) {
-        filterAlbums();
+function resetDisplayedAlbums() {
+    displayedAlbums = [];
+    currentPage = 0;
+    infiniteId = Symbol();
+}
+
+function loadMoreAlbums({ detail: { loaded, complete } }) {
+    const start = currentPage * pageSize;
+    const end = start + pageSize;
+    const newAlbums = filteredAlbums.slice(start, end);
+    console.log(`Loading more albums: start=${start}, end=${end}, newAlbums.length=${newAlbums.length}`);
+    
+    if (newAlbums.length) {
+        displayedAlbums = [...displayedAlbums, ...newAlbums];
+        currentPage += 1;
+        loaded();
+        console.log(`New page: ${currentPage}, displayedAlbums.length=${displayedAlbums.length}`);
+    } else {
+        complete();
+        console.log('No more albums to load');
     }
+}
+
+$: if (searchTerm) {
+    filterAlbums();
 }
 
 onMount(() => {
@@ -39,9 +66,10 @@ onMount(() => {
 </script>
 
 <div class="album-grid">
-    {#each filteredAlbums as album (album.name + album.artist)}
+    {#each displayedAlbums as album (album.name + album.artist)}
         <AlbumCardWrapper {album} />
     {/each}
+    <InfiniteLoading on:infinite={loadMoreAlbums} identifier={infiniteId} />
 </div>
 
 <style>

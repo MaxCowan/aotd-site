@@ -1,6 +1,4 @@
 <script>
-import { onMount } from 'svelte';
-
 export let album;
 let imageElement;
 
@@ -10,28 +8,9 @@ function getImageUrl() {
         : "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806";
     return url;
 }
-
-function setUpLazyLoad() {
-    if (imageElement) {
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    imageElement.src = imageElement.getAttribute('data-src');
-                    observer.unobserve(imageElement);
-                }
-            });
-        });
-
-        observer.observe(imageElement);
-    }
-}
-
-onMount(() => {
-    setUpLazyLoad();
-});
 </script>
 
-<img bind:this={imageElement} alt={album.name} class="album-image" data-src={getImageUrl()} />
+<img bind:this={imageElement} alt={album.name} class="album-image" src={getImageUrl()} />
 
 <style>
 .album-image {
