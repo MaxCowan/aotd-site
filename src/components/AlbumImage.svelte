@@ -1,4 +1,5 @@
 <script>
+import { onMount, onDestroy } from 'svelte';
 export let album;
 let imageElement;
 
@@ -8,9 +9,52 @@ function getImageUrl() {
         : "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png?1642732008806";
     return url;
 }
+
+let loaded = false;
+let observer;
+
+function onLoad() {
+    loaded = true;
+    if (observer) {
+        observer.disconnect();
+    }
+}
+
+onMount(() => {
+    if ('IntersectionObserver' in window) {
+        observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    imageElement.src = getImageUrl();
+                    observer.unobserve(imageElement);
+                }
+            });
+        });
+        observer.observe(imageElement);
+    } else {
+        // Fallback for browsers without IntersectionObserver support
+        imageElement.src = getImageUrl();
+    }
+});
+
+onDestroy(() => {
+    if (observer) {
+        observer.disconnect();
+    }
+});
 </script>
 
-<img bind:this={imageElement} alt={album.name} class="album-image" src={getImageUrl()} />
+<img 
+    bind:this={imageElement} 
+    alt={album.name} 
+    class="album-image {loaded ? 'loaded' : ''}"
+    data-src={getImageUrl()} 
+    loading="lazy"
+    decoding="async"
+    width="400"
+    height="400"
+    on:load={onLoad}
+/>
 
 <style>
 .album-image {
@@ -20,7 +64,12 @@ function getImageUrl() {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s, filter 0.5s;
+    transition: transform 0.5s, filter 0.5s, opacity 0.5s;
+    opacity: 0;
+}
+
+.album-image.loaded {
+    opacity: 1;
 }
 
 :global(.album-card:hover .album-image) {
