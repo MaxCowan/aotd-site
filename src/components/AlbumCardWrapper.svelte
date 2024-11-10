@@ -20,9 +20,72 @@ function toggleExpand(event) {
     }
 
     if (current === cardElement) {
-        cardElement.style.transition = 'all 0.4s ease';
-        cardElement.style.transform = 'none';
+        // Collapse the card
+        collapseCard();
+    } else {
+        // Expand the card
+        expandCard();
+    }
 
+    event.stopPropagation();
+}
+
+function expandCard() {
+    originalRect = cardElement.getBoundingClientRect();
+    placeholderElement.style.display = 'block';
+    placeholderElement.style.width = `${originalRect.width}px`;
+    placeholderElement.style.height = `${originalRect.height}px`;
+
+    // Set initial fixed position
+    cardElement.style.position = 'fixed';
+    cardElement.style.top = `${originalRect.top}px`;
+    cardElement.style.left = `${originalRect.left}px`;
+    cardElement.style.width = `${originalRect.width}px`;
+    cardElement.style.height = `${originalRect.height}px`;
+    cardElement.style.zIndex = '10';
+    cardElement.style.transition = 'all 0.4s ease';
+    cardElement.style.transformOrigin = 'center center';
+
+    // Flip the card first
+    isFlipped = true;
+
+    // Wait for the flip to complete before expanding
+    setTimeout(() => {
+        // Calculate center position
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const targetWidth = 1000; // Desired expanded width in px
+        const targetHeight = 1000; // Desired expanded height in px
+
+        const targetTop = (viewportHeight - targetHeight) / 2;
+        const targetLeft = (viewportWidth - targetWidth) / 2;
+
+        // Apply expansion
+        cardElement.style.top = `${targetTop}px`;
+        cardElement.style.left = `${targetLeft}px`;
+        cardElement.style.width = `${targetWidth}px`;
+        cardElement.style.height = `${targetHeight}px`;
+
+        isExpanded = true;
+        currentExpanded.set(cardElement);
+        document.body.style.overflow = 'hidden';
+    }, 600); // Match this timeout with the flip transition duration (0.6s)
+}
+
+function collapseCard() {
+    // Start by flipping back
+    isFlipped = false;
+
+    // Wait for the flip to complete before shrinking
+    setTimeout(() => {
+        // Revert to original size and position
+        cardElement.style.transition = 'all 0.4s ease';
+        cardElement.style.width = `${originalRect.width}px`;
+        cardElement.style.height = `${originalRect.height}px`;
+        cardElement.style.top = `${originalRect.top}px`;
+        cardElement.style.left = `${originalRect.left}px`;
+
+        // After transition, reset styles
         setTimeout(() => {
             placeholderElement.style.display = 'none';
             cardElement.style.position = '';
@@ -36,44 +99,9 @@ function toggleExpand(event) {
             currentExpanded.set(null);
             isExpanded = false;
             isFlipped = false;
+            document.body.style.overflow = '';
         }, 400);
-
-        document.body.style.overflow = '';
-    } else {
-        originalRect = cardElement.getBoundingClientRect();
-        placeholderElement.style.display = 'block';
-        placeholderElement.style.width = `${originalRect.width}px`;
-        placeholderElement.style.height = `${originalRect.height}px`;
-
-        cardElement.style.position = 'fixed';
-        cardElement.style.top = `${originalRect.top}px`;
-        cardElement.style.left = `${originalRect.left}px`;
-        cardElement.style.width = `${originalRect.width}px`;
-        cardElement.style.height = `${originalRect.height}px`;
-        cardElement.style.zIndex = '10';
-        cardElement.style.transition = 'all 0.4s ease';
-
-        // Flip the card immediately
-        isFlipped = true;
-
-        setTimeout(() => {
-            requestAnimationFrame(() => {
-                const viewportWidth = window.innerWidth;
-                const viewportHeight = window.innerHeight;
-
-                const translateX = (viewportWidth / 2 - originalRect.left - originalRect.width / 2);
-                const translateY = (viewportHeight / 2 - originalRect.top - originalRect.height / 2);
-
-                cardElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(2.5)`;
-            });
-        }, 500); // Wait for the flip animation to complete
-
-        currentExpanded.set(cardElement);
-        document.body.style.overflow = 'hidden';
-        isExpanded = true;
-    }
-
-    event.stopPropagation();
+    }, 600); // Match this timeout with the flip transition duration (0.6s)
 }
 
 function handleClose(event) {
@@ -116,7 +144,7 @@ function handleKeyPress(event) {
     padding-top: 100%;
     border-radius: 0.5rem;
     overflow: hidden;
-    transition: transform 0.4s, box-shadow 0.4s;
+    transition: all 0.4s ease, box-shadow 0.4s ease;
     font-family: inherit;
     box-sizing: border-box;
     cursor: pointer;
@@ -131,6 +159,7 @@ function handleKeyPress(event) {
 
 .album-card.expanded {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    transform: none !important;
 }
 
 .album-card-inner {
@@ -140,10 +169,32 @@ function handleKeyPress(event) {
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
-    transition: transform 0.6s;
+    transition: transform 0.6s ease;
 }
 
 .album-card.flipped .album-card-inner {
     transform: rotateY(180deg);
+}
+
+/* Prevent hover effects on the entire card when expanded */
+:global(.album-card.expanded) {
+    transform: none !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Apply hover effects only to the front face when not expanded */
+:global(.album-card:not(.expanded):hover .album-card-front .album-image) {
+    transform: scale(1.05);
+    filter: blur(2px);
+}
+
+:global(.album-card:not(.expanded):hover .album-info) {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Centering the expanded card */
+:global(.album-card.expanded) {
+    /* The position and size are handled via inline styles set by JavaScript */
 }
 </style>

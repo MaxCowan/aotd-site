@@ -68,12 +68,20 @@ onDestroy(() => {
     opacity: 0;
 }
 
+/* Fade in image once loaded */
 .album-image.loaded {
     opacity: 1;
 }
 
-:global(.album-card:hover .album-image) {
+/* Apply hover effects only when the card is not expanded */
+:global(.album-card:not(.expanded):hover .album-image) {
     transform: scale(1.05);
     filter: blur(2px);
+}
+
+/* Ensure no blur or transform when the card is expanded */
+:global(.album-card.expanded .album-image) {
+    transform: none;
+    filter: none;
 }
 </style>

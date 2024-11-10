@@ -41,6 +41,12 @@
     overflow: hidden;
     padding: 1rem;
     box-sizing: border-box;
+    transform-style: preserve-3d;
+    z-index: 2;
+}
+
+.album-card-front {
+    z-index: 1;
 }
 
 .back-content {
@@ -53,6 +59,8 @@
     height: 100%;
     overflow-y: auto;
     pointer-events: none;
+    will-change: opacity, transform;
+    transform: translateZ(0);
 }
 
 .expanded .back-content {
@@ -62,6 +70,7 @@
 h3 {
     margin: 0;
     padding: 1rem 0;
+    font-size: 3.0rem;
 }
 
 .album-details {
@@ -69,7 +78,7 @@ h3 {
     flex-direction: column;
     gap: 0.5rem;
     margin-top: 1rem;
-    font-size: 0.9rem;
+    font-size: 2.0rem;
     text-align: left;
     width: 100%;
     padding: 0 0.5rem;
