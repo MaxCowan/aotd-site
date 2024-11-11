@@ -73,35 +73,29 @@ function expandCard() {
 }
 
 function collapseCard() {
-    // Start by flipping back
-    isFlipped = false;
+    // Revert to original size and position immediately
+    cardElement.style.transition = 'all 0.4s ease';
+    cardElement.style.width = `${originalRect.width}px`;
+    cardElement.style.height = `${originalRect.height}px`;
+    cardElement.style.top = `${originalRect.top}px`;
+    cardElement.style.left = `${originalRect.left}px`;
 
-    // Wait for the flip to complete before shrinking
+    // After transition, flip the card back
     setTimeout(() => {
-        // Revert to original size and position
-        cardElement.style.transition = 'all 0.4s ease';
-        cardElement.style.width = `${originalRect.width}px`;
-        cardElement.style.height = `${originalRect.height}px`;
-        cardElement.style.top = `${originalRect.top}px`;
-        cardElement.style.left = `${originalRect.left}px`;
-
-        // After transition, reset styles
-        setTimeout(() => {
-            placeholderElement.style.display = 'none';
-            cardElement.style.position = '';
-            cardElement.style.top = '';
-            cardElement.style.left = '';
-            cardElement.style.width = '';
-            cardElement.style.height = '';
-            cardElement.style.transform = '';
-            cardElement.style.zIndex = '';
-            cardElement.style.transition = '';
-            currentExpanded.set(null);
-            isExpanded = false;
-            isFlipped = false;
-            document.body.style.overflow = '';
-        }, 400);
-    }, 600); // Match this timeout with the flip transition duration (0.6s)
+        isFlipped = false; // Flip back after shrinking
+        placeholderElement.style.display = 'none';
+        cardElement.style.position = '';
+        cardElement.style.top = '';
+        cardElement.style.left = '';
+        cardElement.style.width = '';
+        cardElement.style.height = '';
+        cardElement.style.transform = '';
+        cardElement.style.zIndex = '';
+        cardElement.style.transition = '';
+        currentExpanded.set(null);
+        isExpanded = false;
+        document.body.style.overflow = '';
+    }, 400); // Match this timeout with the shrink transition duration (0.4s)
 }
 
 function handleClose(event) {
