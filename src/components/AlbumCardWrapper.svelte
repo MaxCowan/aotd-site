@@ -79,6 +79,7 @@ function collapseCard() {
     cardElement.style.height = `${originalRect.height}px`;
     cardElement.style.top = `${originalRect.top}px`;
     cardElement.style.left = `${originalRect.left}px`;
+    isExpanded = false;
 
     // After transition, flip the card back
     setTimeout(() => {
@@ -93,7 +94,6 @@ function collapseCard() {
         cardElement.style.zIndex = '';
         cardElement.style.transition = '';
         currentExpanded.set(null);
-        isExpanded = false;
         document.body.style.overflow = '';
     }, 400); // Match this timeout with the shrink transition duration (0.4s)
 }

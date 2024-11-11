@@ -41,8 +41,8 @@
     overflow: hidden;
     padding: 1rem;
     box-sizing: border-box;
-    transform-style: preserve-3d;
     z-index: 2;
+    transition: transform 0.4s ease, font-size 0.4s ease;
 }
 
 .album-card-front {
@@ -70,7 +70,8 @@
 h3 {
     margin: 0;
     padding: 1rem 0;
-    font-size: 3.0rem;
+    font-size: 1.5rem;
+    transition: font-size 0.4s ease;
 }
 
 .album-details {
@@ -78,11 +79,12 @@ h3 {
     flex-direction: column;
     gap: 0.5rem;
     margin-top: 1rem;
-    font-size: 2.0rem;
+    font-size: 1.0rem;
     text-align: left;
     width: 100%;
     padding: 0 0.5rem;
     box-sizing: border-box;
+    transition: font-size 0.4s ease;
 }
 
 .detail {
@@ -101,5 +103,13 @@ h3 {
     white-space: normal;
     overflow: visible;
     text-align: left;
+}
+
+.expanded h3 {
+    font-size: 4.0rem;
+}
+
+.expanded .album-details {
+    font-size: 2.5rem;
 }
 </style>
