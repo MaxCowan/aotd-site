@@ -11,7 +11,7 @@
 
 <div class="album-card-back {isExpanded ? 'expanded' : ''}">
     <div class="back-content" bind:this={backContentElement}>
-        <h3>{album.name}</h3>
+        <h3 class="title">{album.name}</h3>
         <div class="album-details">
             {#each Object.entries(album) as [key, value]}
                 <div class="detail">
@@ -24,6 +24,11 @@
 </div>
 
 <style>
+:root {
+    --title-font-size: 1.5rem;
+    --details-font-size: 1rem;
+}
+
 .album-card-back {
     position: absolute;
     top: 0;
@@ -35,14 +40,14 @@
     color: white;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Align to top for better scaling */
     backface-visibility: hidden;
     border-radius: 0.5rem;
-    overflow: hidden;
+    overflow: hidden; /* Maintain card boundaries */
     padding: 1rem;
     box-sizing: border-box;
     z-index: 2;
-    transition: transform 0.4s ease, font-size 0.4s ease;
+    transition: all 0.4s ease;
 }
 
 .album-card-front {
@@ -59,18 +64,19 @@
     height: 100%;
     overflow-y: auto;
     pointer-events: none;
-    will-change: opacity, transform;
-    transform: translateZ(0);
+    transition: background-color 0.4s ease;
+    background-color: transparent;
 }
 
 .expanded .back-content {
     pointer-events: auto;
+    background-color: rgba(0, 0, 0, 0.8); /* Optional: Darken background when expanded */
 }
 
-h3 {
+.title {
     margin: 0;
     padding: 1rem 0;
-    font-size: 1.5rem;
+    font-size: var(--title-font-size);
     transition: font-size 0.4s ease;
 }
 
@@ -79,12 +85,12 @@ h3 {
     flex-direction: column;
     gap: 0.5rem;
     margin-top: 1rem;
-    font-size: 1.0rem;
+    font-size: var(--details-font-size);
     text-align: left;
     width: 100%;
     padding: 0 0.5rem;
     box-sizing: border-box;
-    transition: font-size 0.4s ease;
+    overflow-y: auto;
 }
 
 .detail {
@@ -105,11 +111,9 @@ h3 {
     text-align: left;
 }
 
-.expanded h3 {
-    font-size: 4.0rem;
-}
-
-.expanded .album-details {
-    font-size: 2.5rem;
+/* Adjust font sizes when expanded */
+.album-card-back.expanded {
+    --title-font-size: 2.5rem; /* Scale up title */
+    --details-font-size: 1.5rem; /* Scale up details */
 }
 </style>

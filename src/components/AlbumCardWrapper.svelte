@@ -54,8 +54,8 @@ function expandCard() {
         // Calculate center position
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
-        const targetWidth = 1000; // Desired expanded width in px
-        const targetHeight = 1000; // Desired expanded height in px
+        const targetWidth = 600; // Adjust as needed
+        const targetHeight = 600; // Adjust as needed
 
         const targetTop = (viewportHeight - targetHeight) / 2;
         const targetLeft = (viewportWidth - targetWidth) / 2;
@@ -73,7 +73,7 @@ function expandCard() {
 }
 
 function collapseCard() {
-    // Revert to original size and position immediately
+    // Revert to original size and position
     cardElement.style.transition = 'all 0.4s ease';
     cardElement.style.width = `${originalRect.width}px`;
     cardElement.style.height = `${originalRect.height}px`;
@@ -116,7 +116,7 @@ function handleKeyPress(event) {
     <div class="album-card {isExpanded ? 'expanded' : ''} {isFlipped ? 'flipped' : ''}" on:click={toggleExpand} role="button" tabindex="0" aria-expanded={get(currentExpanded) === cardElement} aria-label={`Toggle expand for ${album.name}`} on:keypress={handleKeyPress}>
         <div class="album-card-inner">
             <AlbumCardFront {album} />
-            <AlbumCardBack {album} {isExpanded} />
+            <AlbumCardBack {album} isExpanded={isExpanded} />
         </div>
     </div>
 </div>
@@ -187,8 +187,9 @@ function handleKeyPress(event) {
     transform: translateY(0);
 }
 
-/* Centering the expanded card */
-:global(.album-card.expanded) {
-    /* The position and size are handled via inline styles set by JavaScript */
+/* Ensure no scaling-related styles remain */
+:global(.album-card.expanded .album-image) {
+    transform: none;
+    filter: none;
 }
 </style>
